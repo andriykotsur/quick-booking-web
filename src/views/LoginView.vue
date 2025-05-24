@@ -10,7 +10,6 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { useAuth } from '@/composables/useAuth'
 import { useAuthStore } from '@/stores/auth'
 import { useToastStore } from '@/stores/toast'
-import { ToastProvider } from 'reka-ui'
 
 const route = useRoute()
 const router = useRouter()
@@ -42,7 +41,7 @@ const onSubmit = form.handleSubmit(async ({ email, password }) => {
     const { data, error } = await login({ email, password }, { credentials: 'include' })
 
     if (error.value || !data.value) {
-      toastStore.setToast('error', 'Failed to login', error.value.message)
+      toastStore.setToast('danger', 'Failed to login', error.value.message)
       return
     }
 
@@ -52,50 +51,48 @@ const onSubmit = form.handleSubmit(async ({ email, password }) => {
     const redirectTo = route.query.redirect?.toString() || '/'
     await router.push(redirectTo)
   } catch (error) {
-    console.error(error)
-    toastStore.setToast('error', 'Error occurred', 'Unexpected error')
+    console.error('Error occurred', error)
+    toastStore.setToast('danger', 'Error occurred', 'Unexpected error')
   }
 })
 </script>
 
 <template>
-  <ToastProvider>
-    <Layout class="p-8 w-screen h-screen flex flex-col justify-center items-center bg-neutral-900">
-      <section class="max-w-xl w-full">
-        <form class="flex flex-col gap-y-4" @submit="onSubmit">
-          <FormField v-slot="{ componentField }" name="email">
-            <FormItem class="flex flex-col" label="Email">
-              <FormLabel class="text-white">Email</FormLabel>
-              <FormControl>
-                <Input type="text" placeholder="Enter email" size="md" v-bind="componentField" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          </FormField>
+  <Layout class="p-8 w-screen h-screen flex flex-col justify-center items-center bg-neutral-900">
+    <section class="max-w-xl w-full">
+      <form class="flex flex-col gap-y-4" @submit="onSubmit">
+        <FormField v-slot="{ componentField }" name="email">
+          <FormItem class="flex flex-col" label="Email">
+            <FormLabel class="text-white">Email</FormLabel>
+            <FormControl>
+              <Input type="text" placeholder="Enter email" size="md" v-bind="componentField" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
 
-          <FormField v-slot="{ componentField }" name="password">
-            <FormItem class="flex flex-col">
-              <FormLabel class="text-white">Password</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Enter password"
-                  size="md"
-                  v-bind="componentField"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          </FormField>
+        <FormField v-slot="{ componentField }" name="password">
+          <FormItem class="flex flex-col">
+            <FormLabel class="text-white">Password</FormLabel>
+            <FormControl>
+              <Input
+                type="password"
+                placeholder="Enter password"
+                size="md"
+                v-bind="componentField"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
 
-          <p class="text-sm text-white opacity-50">
-            Don't have an account?
-            <RouterLink to="/register" class="underline">Register</RouterLink>
-          </p>
+        <p class="text-sm text-white opacity-50">
+          Don't have an account?
+          <RouterLink to="/register" class="underline">Register</RouterLink>
+        </p>
 
-          <Button type="submit" size="md" variant="primary" class="mt-4">Login</Button>
-        </form>
-      </section>
-    </Layout>
-  </ToastProvider>
+        <Button type="submit" size="md" variant="primary" class="mt-4">Login</Button>
+      </form>
+    </section>
+  </Layout>
 </template>

@@ -43,7 +43,7 @@ const onSubmit = form.handleSubmit(async ({ name, password, email }) => {
     const { data, error } = await register({ name, email, password }, { credentials: 'include' })
 
     if (error.value || !data.value) {
-      toastStore.setToast('error', 'Failed to register', error.value.message)
+      toastStore.setToast('danger', 'Failed to register', error.value.message)
       return
     }
 
@@ -51,8 +51,8 @@ const onSubmit = form.handleSubmit(async ({ name, password, email }) => {
 
     await router.push('/login')
   } catch (error) {
-    console.error(error)
-    toastStore.setToast('error', 'Error occurred', 'Unexpected error')
+    console.error('Error occurred', error)
+    toastStore.setToast('danger', 'Error occurred', 'Unexpected error')
   }
 })
 </script>
