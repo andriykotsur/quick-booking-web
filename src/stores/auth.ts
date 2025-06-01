@@ -1,13 +1,17 @@
 import { defineStore } from 'pinia'
 import { checkIsTokenExpired } from '@/utils/auth'
 
+import type { User } from '@/types/user'
+
 export const useAuthStore = defineStore('auth', {
-  state: (): { accessToken: string } => ({
+  state: (): { accessToken: string; user: null | User } => ({
     accessToken: '',
+    user: null,
   }),
 
   getters: {
-    isAuthenticated: (state) => !!state.accessToken && !checkIsTokenExpired(state.accessToken),
+    isAuthenticated: (state) => !!state.accessToken,
+    isTokenExpired: (state) => checkIsTokenExpired(state.accessToken),
   },
 
   actions: {
@@ -15,8 +19,12 @@ export const useAuthStore = defineStore('auth', {
       this.accessToken = token
     },
 
-    clearAccessToken() {
+    removeAccessToken() {
       this.accessToken = ''
     },
+  },
+
+  persist: {
+    pick: ['accessToken'],
   },
 })

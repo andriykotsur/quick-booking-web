@@ -1,5 +1,6 @@
-import { useFetch } from './useFetch.ts'
 import type { UseFetchOptions } from '@vueuse/core'
+
+import { useFetch } from '@/composables/useFetch'
 
 const API_ROUTE = 'auth'
 
@@ -12,7 +13,7 @@ export interface RegisterParams extends LoginParams {
   name: string
 }
 
-export const useAuth = () => {
+export const authService = () => {
   const login = (payload: LoginParams, options: RequestInit, useFetchOptions?: UseFetchOptions) =>
     useFetch(`${API_ROUTE}/login`, options, useFetchOptions).post(payload).json<string>()
 

@@ -1,7 +1,7 @@
 import { createFetch } from '@vueuse/core'
 
 import { apiConfig } from '@/config'
-import { useAuth } from '@/composables/useAuth'
+import { authService } from '@/services/auth'
 import { useAuthStore } from '@/stores/auth'
 
 let isRefreshing = false
@@ -33,8 +33,8 @@ export const useFetch = createFetch({
       return { options }
     },
     async onFetchError({ response, data, error, execute }) {
+      const { refresh } = authService()
       const authStore = useAuthStore()
-      const { refresh } = useAuth()
 
       if (response?.status === 401) {
         if (!isRefreshing) {

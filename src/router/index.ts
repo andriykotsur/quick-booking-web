@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import { useAuth } from '@/composables/useAuth'
-import { useAuthStore } from '@/stores/auth'
+import { authMiddleware } from '@/router/middleware/auth'
+import { userMiddleware } from '@/router/middleware/user'
 
 import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
@@ -29,24 +29,7 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach(async (to, from, next) => {
-  if (to.meta.requiresAuth) {
-    const { refresh } = useAuth()
-    const authStore = useAuthStore()
-
-    if (!authStore.isAuthenticated) {
-      const { data, error } = await refresh({ credentials: 'include' })
-
-      if (error.value || !data.value) {
-        authStore.clearAccessToken()
-        return next({ name: 'Login', query: { redirect: to.fullPath } })
-      }
-
-      authStore.setAccessToken(data.value)
-    }
-  }
-
-  next()
-})
+router.beforeEach(authMiddleware)
+router.beforeEach(userMiddleware)
 
 export default router
