@@ -20,8 +20,9 @@ const toastStore = useToastStore()
     />
 
     <ToastViewport
-      class="fixed right-0 bottom-0 m-0 p-8 w-80 flex flex-col gap-4 list-none outline-none z-[2147483647]"
+      class="fixed right-0 bottom-0 m-0 p-8 max-w-xl w-full flex flex-col gap-4 list-none outline-none z-[2147483647]"
     />
   </ToastProvider>
+
   <RouterView />
 </template>

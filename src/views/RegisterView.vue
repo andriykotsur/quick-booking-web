@@ -1,20 +1,23 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm } from 'vee-validate'
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 
-import { Button, Input, Layout } from '@/components/ui'
+import AuthLayout from '@/layouts/AuthLayout.vue'
+import { Button, Input } from '@/components/ui'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form'
 
-import { useAuth } from '@/composables/useAuth'
+import { authService } from '@/services/auth'
 import { useToastStore } from '@/stores/toast'
 
 const router = useRouter()
 
+const { register } = authService()
 const toastStore = useToastStore()
 
-const { register } = useAuth()
+const isLoading = ref(false)
 
 const formSchema = toTypedSchema(
   z.object({
@@ -40,69 +43,73 @@ const form = useForm({
 
 const onSubmit = form.handleSubmit(async ({ name, password, email }) => {
   try {
+    isLoading.value = true
+
     const { data, error } = await register({ name, email, password }, { credentials: 'include' })
 
     if (error.value || !data.value) {
-      toastStore.setToast('danger', 'Failed to register', error.value.message)
+      console.error('Failed to login', error.value.message)
+      toastStore.setToast('danger', 'Failed to login', 'Please try again.')
       return
     }
 
-    toastStore.setToast('success', 'Success', 'Successfully registered')
+    toastStore.setToast(
+      'success',
+      'Success',
+      'Successfully registered. Please login to access the Dashboard.',
+    )
 
     await router.push('/login')
   } catch (error) {
     console.error('Error occurred', error)
-    toastStore.setToast('danger', 'Error occurred', 'Unexpected error')
+    toastStore.setToast('danger', 'Error occurred', 'Unexpected error. Please try again.')
+  } finally {
+    isLoading.value = false
   }
 })
 </script>
 
 <template>
-  <Layout class="p-8 w-screen h-screen flex flex-col justify-center items-center bg-neutral-900">
-    <section class="max-w-xl w-full">
-      <form class="flex flex-col gap-y-4" @submit="onSubmit">
-        <FormField v-slot="{ componentField }" name="name">
-          <FormItem class="flex flex-col" label="Name">
-            <FormLabel class="text-white">Name</FormLabel>
-            <FormControl>
-              <Input type="text" placeholder="Enter name" size="md" v-bind="componentField" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
+  <AuthLayout>
+    <form class="flex flex-col gap-y-4" @submit="onSubmit">
+      <FormField v-slot="{ componentField }" name="name">
+        <FormItem class="flex flex-col" label="Name">
+          <FormLabel class="text-white">Name</FormLabel>
+          <FormControl>
+            <Input type="text" placeholder="Enter name" size="md" v-bind="componentField" />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
 
-        <FormField v-slot="{ componentField }" name="email">
-          <FormItem class="flex flex-col" label="Email">
-            <FormLabel class="text-white">Email</FormLabel>
-            <FormControl>
-              <Input type="text" placeholder="Enter email" size="md" v-bind="componentField" />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
+      <FormField v-slot="{ componentField }" name="email">
+        <FormItem class="flex flex-col" label="Email">
+          <FormLabel class="text-white">Email</FormLabel>
+          <FormControl>
+            <Input type="text" placeholder="Enter email" size="md" v-bind="componentField" />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
 
-        <FormField v-slot="{ componentField }" name="password">
-          <FormItem class="flex flex-col">
-            <FormLabel class="text-white">Password</FormLabel>
-            <FormControl>
-              <Input
-                type="password"
-                placeholder="Enter password"
-                size="md"
-                v-bind="componentField"
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        </FormField>
+      <FormField v-slot="{ componentField }" name="password">
+        <FormItem class="flex flex-col">
+          <FormLabel class="text-white">Password</FormLabel>
+          <FormControl>
+            <Input type="password" placeholder="Enter password" size="md" v-bind="componentField" />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
 
-        <p class="text-sm text-white opacity-50">
-          Already have an account?
-          <RouterLink to="/login" class="underline">Login</RouterLink>
-        </p>
+      <p class="text-sm text-white opacity-50">
+        Already have an account?
+        <RouterLink to="/login" class="underline">Login</RouterLink>
+      </p>
 
-        <Button type="submit" size="md" variant="primary" class="mt-4">Register</Button>
-      </form>
-    </section>
-  </Layout>
+      <Button type="submit" :disabled="isLoading" size="md" variant="primary" class="mt-4"
+        >Register</Button
+      >
+    </form>
+  </AuthLayout>
 </template>
