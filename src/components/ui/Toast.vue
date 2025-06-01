@@ -3,7 +3,7 @@ import { clsx } from 'clsx'
 import { ToastClose, ToastDescription, ToastRoot, ToastTitle } from 'reka-ui'
 import { type HTMLAttributes } from 'vue'
 
-import { CloseIcon } from '@/components/icons'
+import { CloseIcon } from '@/icons'
 
 import type { ToastVariant } from '@/stores/toast'
 
@@ -19,7 +19,7 @@ const emit = defineEmits(['remove'])
 
 <template>
   <ToastRoot
-    class="p-4 flex justify-between items-center gap-x-2 bg-white border rounded data-[state=open]:animate-slideIn data-[state=closed]:animate-hide data-[swipe=move]:translate-x-[var(--reka-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-[transform_200ms_ease-out] data-[swipe=end]:animate-swipeOut focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+    class="p-4 flex justify-between gap-x-2 bg-white border rounded data-[state=open]:animate-slideIn data-[state=closed]:animate-hide data-[swipe=move]:translate-x-[var(--reka-toast-swipe-move-x)] data-[swipe=cancel]:translate-x-0 data-[swipe=cancel]:transition-[transform_200ms_ease-out] data-[swipe=end]:animate-swipeOut focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
   >
     <div class="flex flex-col gap-y-2">
       <ToastTitle
