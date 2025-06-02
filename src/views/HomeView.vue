@@ -32,7 +32,7 @@ const mainItems = [
       >
         <RouterLink
           :to="item.slug"
-          class="ml-auto w-8 h-8 flex justify-center items-center bg-white rounded-full"
+          class="ml-auto w-8 h-8 flex justify-center items-center bg-white rounded-full transition duration-200 ease-in-out hover:opacity-50"
         >
           <ArrowIcon aria-hidden="true" focusable="false" />
         </RouterLink>
