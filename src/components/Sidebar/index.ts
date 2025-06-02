@@ -1,0 +1,7 @@
+export { default as SidebarContainer } from './SidebarContainer.vue'
+export { default as SidebarTrigger } from './SidebarTrigger.vue'
+export { default as SidebarHeader } from './SidebarHeader.vue'
+export { default as SidebarFooter } from './SidebarFooter.vue'
+export { default as SidebarMenu } from './SidebarMenu.vue'
+export { default as SidebarItem } from './SidebarItem.vue'
+export { default as SidebarLink } from './SidebarLink.vue'
