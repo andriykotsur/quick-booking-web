@@ -1,6 +1,6 @@
 import { Role } from '@/enums/role'
 
-export interface User {
+export type User = {
   id: number
   name: string
   email: string

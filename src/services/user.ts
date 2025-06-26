@@ -5,16 +5,11 @@ import { useFetch } from '@/composables/useFetch'
 
 const API_ROUTE = 'user'
 
-export interface CreateUserParams {
-  name: string
-  email: string
+export type CreateUserParams = Pick<User, 'name' | 'email'> & {
   password: string
 }
 
-export interface UpdateUserParams {
-  name: string
-  email: string
-}
+export type UpdateUserParams = Pick<User, 'name' | 'email'>
 
 export const userService = () => {
   const create = (

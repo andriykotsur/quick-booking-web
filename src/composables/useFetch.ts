@@ -36,7 +36,7 @@ export const useFetch = createFetch({
       const { refresh } = authService()
       const authStore = useAuthStore()
 
-      if (response?.status === 401) {
+      if (response?.status === 401 && authStore.isTokenExpired) {
         if (!isRefreshing) {
           isRefreshing = true
 
