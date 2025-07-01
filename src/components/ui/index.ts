@@ -5,3 +5,4 @@ export { default as Input } from './Input.vue';
 export { default as Layout } from './Layout.vue';
 export { default as Skeleton } from './Skeleton.vue';
 export { default as Toast } from './Toast.vue';
+export { default as Tooltip } from './Tooltip.vue';
