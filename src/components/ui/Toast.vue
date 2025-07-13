@@ -3,7 +3,7 @@ import { clsx } from 'clsx'
 import { ToastClose, ToastDescription, ToastRoot, ToastTitle } from 'reka-ui'
 import { type HTMLAttributes } from 'vue'
 
-import { CloseIcon } from '@/icons'
+import { CloseIcon } from '@/components/Icons'
 
 import type { ToastVariant } from '@/stores/toast'
 

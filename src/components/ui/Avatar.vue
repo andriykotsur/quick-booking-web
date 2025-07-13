@@ -33,8 +33,8 @@ const props = defineProps<{
       :alt="props.image?.alt"
     />
     <AvatarFallback
-      class="h-full w-full flex items-center justify-center leading-1 bg-white text-black font-medium"
-      :delay-ms="250"
+      class="h-full w-full flex items-center justify-center leading-1 bg-red-400 text-white font-medium"
+      :delay-ms="200"
     >
       CT
     </AvatarFallback>
