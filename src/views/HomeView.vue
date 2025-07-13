@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ArrowIcon } from '@/icons'
-import { Card } from '@/components/ui'
+import { ArrowIcon } from '@/components/Icons'
+import { CardContainer, CardHeader, CardContent, CardFooter } from '@/components/Card'
 
 import MainLayout from '@/layouts/MainLayout.vue'
 
@@ -23,20 +23,18 @@ const mainItems = [
 <template>
   <MainLayout>
     <section class="py-12 w-full grid grid-cols-2 gap-4">
-      <Card
-        v-for="item in mainItems"
-        :key="item.id"
-        :title="item.title"
-        :description="item.description"
-        class="p-6 bg-neutral-800"
-      >
-        <RouterLink
-          :to="item.slug"
-          class="ml-auto w-8 h-8 flex justify-center items-center bg-white rounded-full transition duration-200 ease-in-out hover:opacity-50"
-        >
-          <ArrowIcon aria-hidden="true" focusable="false" />
-        </RouterLink>
-      </Card>
+      <CardContainer class="p-6 bg-neutral-800" v-for="item in mainItems" :key="item.id">
+        <CardHeader :title="item.title"></CardHeader>
+        <CardContent :description="item.description"></CardContent>
+        <CardFooter>
+          <RouterLink
+            :to="item.slug"
+            class="ml-auto w-8 h-8 flex justify-center items-center bg-white rounded-full transition duration-300 ease-in-out hover:opacity-50"
+          >
+            <ArrowIcon aria-hidden="true" focusable="false" />
+          </RouterLink>
+        </CardFooter>
+      </CardContainer>
     </section>
   </MainLayout>
 </template>
