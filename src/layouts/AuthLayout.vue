@@ -2,7 +2,7 @@
 import { clsx } from 'clsx'
 import type { HTMLAttributes } from 'vue'
 
-import { Layout } from '@/components/ui'
+import { Layout } from '@/components/UI'
 
 const props = defineProps<{
   class?: HTMLAttributes['class']

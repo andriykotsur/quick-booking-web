@@ -4,7 +4,7 @@ import { type HTMLAttributes, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 import { BookIcon, HouseIcon, SettingsIcon, UtensilsIcon } from '@/components/Icons'
-import { Avatar, Button, Layout } from '@/components/ui'
+import { Avatar, Button, Layout } from '@/components/UI'
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader } from '@/components/Dialog'
 import {
   DropdownMenu,

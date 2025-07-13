@@ -2,7 +2,7 @@
 import { ToastProvider, ToastViewport } from 'reka-ui'
 import { RouterView } from 'vue-router'
 
-import { Toast } from '@/components/ui'
+import { Toast } from '@/components/UI'
 
 import { useToastStore } from '@/stores/toast'
 

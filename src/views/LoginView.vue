@@ -6,7 +6,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 
 import AuthLayout from '@/layouts/AuthLayout.vue'
-import { Button, Input } from '@/components/ui'
+import { Button, Input } from '@/components/UI'
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/Form'
 
 import { authService } from '@/services/auth'
