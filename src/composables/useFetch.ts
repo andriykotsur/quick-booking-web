@@ -21,12 +21,12 @@ export const useFetch = createFetch({
   options: {
     updateDataOnError: true,
     async beforeFetch({ options }) {
-      const auth = useAuthStore()
+      const authStore = useAuthStore()
 
-      if (auth.accessToken) {
+      if (authStore.isAuthenticated) {
         options.headers = {
           ...options.headers,
-          Authorization: `Bearer ${auth.accessToken}`,
+          Authorization: `Bearer ${authStore.accessToken}`,
         }
       }
 

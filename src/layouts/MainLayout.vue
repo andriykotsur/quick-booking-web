@@ -23,8 +23,11 @@ import {
 } from '@/components/Sidebar'
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/Tooltip'
 
+import { useAuthStore } from '@/stores/auth'
+import { useToastStore } from '@/stores/toast'
 import { useUIStore } from '@/stores/ui'
 import { useUserStore } from '@/stores/user'
+import { authService } from '@/services/auth.ts'
 
 const props = defineProps<{
   class?: HTMLAttributes['class']
@@ -60,10 +63,33 @@ const menuItems = [
 const route = useRoute()
 const router = useRouter()
 
+const { logout } = authService()
+const authStore = useAuthStore()
 const uiStore = useUIStore()
 const userStore = useUserStore()
+const toastStore = useToastStore()
 
+const isLogoutLoading = ref(false)
 const isLogoutDialogOpen = ref(false)
+
+async function handleLogout() {
+  try {
+    isLogoutLoading.value = true
+
+    await logout({ credentials: 'include' })
+    authStore.removeAccessToken()
+    userStore.removeUser()
+
+    const redirectTo = route.path.toString() || '/'
+    await router.push(`/login?redirect=${redirectTo}`)
+  } catch (error) {
+    console.error('Error occurred', error)
+    toastStore.setToast('danger', 'Error occurred', 'Unexpected error. Please try again.')
+  } finally {
+    isLogoutLoading.value = false
+    isLogoutDialogOpen.value = false
+  }
+}
 </script>
 
 <template>
@@ -149,9 +175,14 @@ const isLogoutDialogOpen = ref(false)
         <DialogClose as-child>
           <Button type="button" size="sm" variant="primary">Cancel</Button>
         </DialogClose>
-        <DialogClose>
-          <Button type="button" size="sm" variant="secondary">Submit</Button>
-        </DialogClose>
+        <Button
+          type="button"
+          size="sm"
+          variant="danger"
+          :disabled="isLogoutLoading"
+          @click="handleLogout"
+          >Submit</Button
+        >
       </DialogFooter>
     </DialogContent>
   </Dialog>
